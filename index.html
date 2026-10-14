@@ -20,9 +20,10 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between p-4 sm:p-6 select-none">
 
-    <div class="max-w-md mx-auto w-full space-y-6 pt-4">
+    <!-- מסך ראשי -->
+    <div id="home-view" class="max-w-md mx-auto w-full space-y-6 pt-4">
         
-        <!-- כרטיס ראשי במראה הכרזה -->
+        <!-- כרטיס ראשי -->
         <div class="bg-[#fffdfa] border-2 border-red-600 rounded-3xl p-6 text-center space-y-3 shadow-sm relative overflow-hidden">
             <h1 class="text-3xl sm:text-4xl font-black text-red-600 tracking-tight leading-none pt-1">
                 שירים ושערים 3
@@ -38,11 +39,11 @@
             </div>
         </div>
 
-        <!-- 2 כפתורים / כרטיסים גדולים לביצוע הפעולות -->
+        <!-- כפתורי ניווט -->
         <div class="grid grid-cols-1 gap-4 pt-2">
             
             <!-- כפתור 1: הזמנת חולצות -->
-            <button onclick="openShirtsForm()" class="group bg-[#fffdfa] hover:bg-red-50/50 border-2 border-red-600 rounded-3xl p-6 text-right transition-all duration-200 shadow-sm hover:shadow-md active:scale-[0.98] flex items-center justify-between">
+            <button onclick="showShirtsForm()" class="group bg-[#fffdfa] hover:bg-red-50/50 border-2 border-red-600 rounded-3xl p-6 text-right transition-all duration-200 shadow-sm hover:shadow-md active:scale-[0.98] flex items-center justify-between">
                 <div>
                     <span class="text-xl font-black text-red-600">הזמנת חולצות</span>
                 </div>
@@ -67,22 +68,145 @@
 
     </div>
 
+    <!-- טופס הזמנת חולצות -->
+    <div id="shirts-view" class="hidden max-w-md mx-auto w-full space-y-5 pt-2">
+        
+        <!-- כפתור חזרה -->
+        <button onclick="showHomeView()" class="flex items-center gap-1.5 text-sm font-bold text-red-600 hover:text-red-700 bg-[#fffdfa] border border-red-200 px-4 py-2 rounded-2xl shadow-sm active:scale-95 transition-all">
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            <span>חזרה לעמוד הראשי</span>
+        </button>
+
+        <!-- כותרת הטופס והסבר -->
+        <div class="bg-[#fffdfa] border-2 border-red-600 rounded-3xl p-5 space-y-2 text-right shadow-sm">
+            <h2 class="text-2xl font-black text-red-600">הזמנת חולצות טורניר לתמיר מס' 3</h2>
+            <div class="text-xs text-gray-700 space-y-1 font-medium leading-relaxed">
+                <p>אנא רשמו שם מלא וסמנו את המידה הרצויה.</p>
+                <p class="font-bold text-red-600">הזמנה נפרדת לכל איש/אישה/ילד/ילדה.</p>
+                <p class="font-bold">עלות חולצה: 30 ש״ח</p>
+                <p class="text-[11px] text-gray-500">* חלק מהתשלום מסייע בהפקת האירוע.</p>
+            </div>
+        </div>
+
+        <form onsubmit="handleShirtsSubmit(event)" class="space-y-4 text-right">
+            
+            <!-- שם מלא -->
+            <div class="bg-[#fffdfa] border border-red-200 rounded-2xl p-4 shadow-sm space-y-1.5">
+                <label class="block text-sm font-bold text-gray-800">
+                    שם מלא <span class="text-red-600">*</span>
+                </label>
+                <input type="text" id="shirt-full-name" required placeholder="הכנס שם מלא"
+                    class="w-full px-4 py-3 rounded-xl bg-[#f7f3eb] border border-gray-300 text-sm focus:outline-none focus:border-red-600 transition-colors">
+            </div>
+
+            <!-- מידה -->
+            <div class="bg-[#fffdfa] border border-red-200 rounded-2xl p-4 shadow-sm space-y-2">
+                <label class="block text-sm font-bold text-gray-800">
+                    מידה <span class="text-red-600">*</span>
+                </label>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-1" id="sizes-container">
+                    <!-- ייטען אוטומטית ע"י JS -->
+                </div>
+            </div>
+
+            <!-- סוג בד -->
+            <div class="bg-[#fffdfa] border border-red-200 rounded-2xl p-4 shadow-sm space-y-2">
+                <label class="block text-sm font-bold text-gray-800">
+                    סוג בד <span class="text-red-600">*</span>
+                </label>
+                <div class="flex gap-4 pt-1">
+                    <label class="flex items-center gap-2 text-sm font-semibold cursor-pointer">
+                        <input type="radio" name="fabric" value="דרייפיט" required class="accent-red-600 w-4 h-4">
+                        <span>דרייפיט</span>
+                    </label>
+                    <label class="flex items-center gap-2 text-sm font-semibold cursor-pointer">
+                        <input type="radio" name="fabric" value="טריקו" required class="accent-red-600 w-4 h-4">
+                        <span>טריקו</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- תשלום פייבוקס -->
+            <div class="bg-[#fffdfa] border-2 border-red-600/80 rounded-2xl p-4 shadow-sm space-y-3">
+                <div class="text-xs font-bold text-gray-800 leading-relaxed">
+                    <p class="text-sm font-black text-red-600 mb-1">לתשלום בפיפייבוקס:</p>
+                    <a href="https://links.payboxapp.com/ECpwzbYVrWb" target="_blank" rel="noopener noreferrer"
+                        class="inline-flex items-center gap-1 text-red-600 underline font-black text-xs break-all hover:text-red-700">
+                        <i data-lucide="external-link" class="w-3.5 h-3.5 shrink-0"></i>
+                        <span>לחץ כאן לתשלום ב-PayBox</span>
+                    </a>
+                    <p class="mt-2 text-red-600 font-bold">שימו לב! יש לחזור לאחר התשלום ולסמן "שולם" - אחרת ההזמנה לא תישלח.</p>
+                </div>
+
+                <div class="pt-2 border-t border-gray-200">
+                    <label class="flex items-center gap-2 text-sm font-bold text-gray-800 cursor-pointer">
+                        <input type="checkbox" id="payment-confirmed" required class="accent-red-600 w-4 h-4 rounded">
+                        <span>ביצעתי תשלום ב-PayBox (שולם)</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- כפתור שליחה -->
+            <button type="submit" class="w-full bg-red-600 hover:bg-red-700 active:scale-[0.98] text-white font-black py-4 rounded-2xl shadow-md transition-all text-base flex items-center justify-center gap-2">
+                <i data-lucide="send" class="w-5 h-5"></i>
+                <span>שלח הזמנה</span>
+            </button>
+
+        </form>
+
+    </div>
+
     <!-- פוטר -->
     <footer class="text-center text-xs text-gray-500 font-medium py-4">
         שירים ושערים 3 • ניר אליהו
     </footer>
 
     <script>
+        const sizes = ['XXXL', 'XXL', 'XL', 'L', 'M', 'S', '18', '16', '14', '12', '10', '8', '6', '4'];
+
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
+            renderSizes();
         });
 
-        function openShirtsForm() {
-            alert('טופס הזמנת חולצות יחובר בהמשך');
+        function renderSizes() {
+            const container = document.getElementById('sizes-container');
+            container.innerHTML = sizes.map(size => `
+                <label class="flex items-center justify-center gap-2 p-2.5 rounded-xl border border-gray-200 bg-[#f7f3eb] hover:border-red-600 cursor-pointer text-xs font-bold transition-all">
+                    <input type="radio" name="size" value="${size}" required class="accent-red-600 w-4 h-4">
+                    <span>${size}</span>
+                </label>
+            `).join('');
+        }
+
+        function showShirtsForm() {
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('shirts-view').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showHomeView() {
+            document.getElementById('shirts-view').classList.add('hidden');
+            document.getElementById('home-view').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function openCakesForm() {
             alert('טופס הרשמה להכנת עוגות/עוגיות יחובר בהמשך');
+        }
+
+        function handleShirtsSubmit(e) {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('shirt-full-name').value.trim();
+            const size = document.querySelector('input[name="size"]:checked')?.value;
+            const fabric = document.querySelector('input[name="fabric"]:checked')?.value;
+
+            alert(`ההזמנה התקבלה בהצלחה!\n\nשם: ${fullName}\nמידה: ${size}\nסוג בד: ${fabric}`);
+            
+            // איפוס הטופס וחזרה לדף הראשי
+            e.target.reset();
+            showHomeView();
         }
     </script>
 </body>
