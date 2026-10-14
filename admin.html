@@ -123,12 +123,19 @@
                     <td class="p-3">${esc(o.size)}</td>
                     <td class="p-3">${esc(o.fabric)}</td>
                     <td class="p-3">${o.paid_claimed ? '✔' : '✘'}</td>
-                    <td class="p-3"><input type="checkbox" ${o.paid_verified ? 'checked' : ''} onchange="setVerified(${o.id}, this.checked)" class="accent-red-600 w-5 h-5"></td>
+                    <td class="p-3 whitespace-nowrap">
+                        <div class="inline-flex rounded-xl overflow-hidden border border-gray-300 text-sm font-black">
+                            <button onclick="setVerified(${o.id}, true)" class="px-3 py-1.5 ${o.paid_verified ? 'bg-green-600 text-white' : 'bg-white text-gray-500 hover:bg-green-50'}">כן ✔</button>
+                            <button onclick="setVerified(${o.id}, false)" class="px-3 py-1.5 border-r border-gray-300 ${!o.paid_verified ? 'bg-red-600 text-white' : 'bg-white text-gray-500 hover:bg-red-50'}">לא ✘</button>
+                        </div>
+                    </td>
                     <td class="p-3"><button onclick="removeOrder(${o.id})" class="text-red-600 font-bold">מחק</button></td>
                 </tr>`).join('') || '<tr><td colspan="8" class="p-6 text-center text-gray-400">אין הזמנות עדיין</td></tr>';
         }
 
         async function setVerified(id, value) {
+            const current = orders.find(o => o.id === id);
+            if (current && current.paid_verified === value) return;
             const { error } = await db.from('shirim3_shirt_orders').update({ paid_verified: value }).eq('id', id);
             if (error) alert('שגיאה בעדכון: ' + error.message);
             loadOrders();
