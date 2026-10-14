@@ -54,7 +54,7 @@
             </button>
 
             <!-- כפתור 2: הכנת עוגות/עוגיות -->
-            <button onclick="openCakesForm()" class="group bg-[#fffdfa] hover:bg-red-50/50 border-2 border-red-600 rounded-3xl p-6 text-right transition-all duration-200 shadow-sm hover:shadow-md active:scale-[0.98] flex items-center justify-between">
+            <button onclick="showCakesView()" class="group bg-[#fffdfa] hover:bg-red-50/50 border-2 border-red-600 rounded-3xl p-6 text-right transition-all duration-200 shadow-sm hover:shadow-md active:scale-[0.98] flex items-center justify-between">
                 <div>
                     <span class="text-xl font-black text-red-600">הכנת עוגות/עוגיות</span>
                 </div>
@@ -156,6 +156,55 @@
 
     </div>
 
+    <!-- מסך הכנת עוגות/עוגיות -->
+    <div id="cakes-view" class="hidden max-w-md mx-auto w-full space-y-5 pt-2">
+        
+        <!-- כפתור חזרה -->
+        <button onclick="showHomeView()" class="flex items-center gap-1.5 text-sm font-bold text-red-600 hover:text-red-700 bg-[#fffdfa] border border-red-200 px-4 py-2 rounded-2xl shadow-sm active:scale-95 transition-all">
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            <span>חזרה לעמוד הראשי</span>
+        </button>
+
+        <!-- הודעה ראשית -->
+        <div class="bg-[#fffdfa] border-2 border-red-600 rounded-3xl p-5 space-y-2 text-center shadow-sm">
+            <div class="w-12 h-12 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mx-auto mb-1">
+                <i data-lucide="cake" class="w-6 h-6"></i>
+            </div>
+            <h2 class="text-2xl font-black text-red-600">הכנת עוגות / עוגיות</h2>
+            <div class="bg-red-50 border border-red-200 rounded-2xl p-3 text-red-700 text-sm font-extrabold leading-snug">
+                בבקשה להביא את העוגה חתוכה ומוכנה להגשה. תודה מראש!
+            </div>
+        </div>
+
+        <!-- טופס הרשמה מהיר -->
+        <form onsubmit="handleCakeSubmit(event)" class="bg-[#fffdfa] border border-red-200 rounded-3xl p-5 space-y-3 text-right shadow-sm">
+            <label class="block text-sm font-bold text-gray-800">
+                הצטרפות לרשימת המכינים <span class="text-red-600">*</span>
+            </label>
+            <div class="flex gap-2">
+                <input type="text" id="cake-baker-name" required placeholder="הכנס שם מלא"
+                    class="w-full px-4 py-3 rounded-xl bg-[#f7f3eb] border border-gray-300 text-sm focus:outline-none focus:border-red-600 transition-colors">
+                <button type="submit" class="bg-red-600 hover:bg-red-700 active:scale-95 text-white font-black px-5 py-3 rounded-xl shadow-sm transition-all shrink-0 flex items-center gap-1 text-sm">
+                    <i data-lucide="plus" class="w-4 h-4"></i>
+                    <span>אני אביא</span>
+                </button>
+            </div>
+        </form>
+
+        <!-- רשימת הנרשמים -->
+        <div class="bg-[#fffdfa] border border-red-200 rounded-3xl p-5 space-y-3 text-right shadow-sm">
+            <div class="flex items-center justify-between border-b border-gray-200 pb-2">
+                <span class="text-sm font-black text-gray-800">רשימת מביאי העוגות והעוגיות:</span>
+                <span id="cakes-count-badge" class="bg-red-100 text-red-600 text-xs font-black px-2.5 py-1 rounded-full">0 מכינים</span>
+            </div>
+
+            <div id="cakes-list" class="space-y-2 pt-1 max-h-60 overflow-y-auto">
+                <!-- יתמלא בלייב ע"י JS -->
+            </div>
+        </div>
+
+    </div>
+
     <!-- פוטר -->
     <footer class="text-center text-xs text-gray-500 font-medium py-4">
         שירים ושערים 3 • ניר אליהו
@@ -163,10 +212,14 @@
 
     <script>
         const sizes = ['XXXL', 'XXL', 'XL', 'L', 'M', 'S', '18', '16', '14', '12', '10', '8', '6', '4'];
+        
+        // רשימת עוגות מקומית זמנית
+        let cakeBakers = [];
 
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
             renderSizes();
+            renderCakeBakers();
         });
 
         function renderSizes() {
@@ -181,18 +234,23 @@
 
         function showShirtsForm() {
             document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('cakes-view').classList.add('hidden');
             document.getElementById('shirts-view').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showCakesView() {
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('shirts-view').classList.add('hidden');
+            document.getElementById('cakes-view').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function showHomeView() {
             document.getElementById('shirts-view').classList.add('hidden');
+            document.getElementById('cakes-view').classList.add('hidden');
             document.getElementById('home-view').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function openCakesForm() {
-            alert('טופס הרשמה להכנת עוגות/עוגיות יחובר בהמשך');
         }
 
         function handleShirtsSubmit(e) {
@@ -204,9 +262,44 @@
 
             alert(`ההזמנה התקבלה בהצלחה!\n\nשם: ${fullName}\nמידה: ${size}\nסוג בד: ${fabric}`);
             
-            // איפוס הטופס וחזרה לדף הראשי
             e.target.reset();
             showHomeView();
+        }
+
+        function handleCakeSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('cake-baker-name');
+            const name = input.value.trim();
+
+            if (!name) return;
+
+            cakeBakers.push(name);
+            input.value = '';
+            renderCakeBakers();
+        }
+
+        function renderCakeBakers() {
+            const listContainer = document.getElementById('cakes-list');
+            const badge = document.getElementById('cakes-count-badge');
+
+            badge.textContent = `${cakeBakers.length} מכינים`;
+
+            if (cakeBakers.length === 0) {
+                listContainer.innerHTML = `<div class="text-center py-4 text-xs font-semibold text-gray-400">טרם נרשמו מכינים. היו הראשונים להירשם!</div>`;
+                return;
+            }
+
+            listContainer.innerHTML = cakeBakers.map((baker, idx) => `
+                <div class="flex items-center justify-between bg-[#f7f3eb] p-3 rounded-2xl border border-gray-200 text-sm font-bold text-gray-800">
+                    <div class="flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-full bg-red-600 text-white text-xs flex items-center justify-center shrink-0 font-black">${idx + 1}</span>
+                        <span>${baker}</span>
+                    </div>
+                    <i data-lucide="check-circle" class="w-4 h-4 text-red-600"></i>
+                </div>
+            `).join('');
+
+            lucide.createIcons();
         }
     </script>
 </body>
