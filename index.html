@@ -45,7 +45,7 @@
             <!-- כפתור 1: הזמנת חולצות -->
             <button onclick="showShirtsForm()" class="group bg-[#fffdfa] hover:bg-red-50/50 border-2 border-red-600 rounded-3xl p-6 text-right transition-all duration-200 shadow-sm hover:shadow-md active:scale-[0.98] flex items-center justify-between">
                 <div>
-                    <span class="text-xl font-black text-red-600">הזמנת חולצות</span>
+                    <span class="text-2xl font-black text-red-600">הזמנת חולצות</span>
                 </div>
 
                 <div class="w-12 h-12 rounded-2xl bg-red-600 text-white flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform shadow-sm">
@@ -56,7 +56,7 @@
             <!-- כפתור 2: הכנת עוגות/עוגיות -->
             <button onclick="showCakesView()" class="group bg-[#fffdfa] hover:bg-red-50/50 border-2 border-red-600 rounded-3xl p-6 text-right transition-all duration-200 shadow-sm hover:shadow-md active:scale-[0.98] flex items-center justify-between">
                 <div>
-                    <span class="text-xl font-black text-red-600">הכנת עוגות/עוגיות</span>
+                    <span class="text-2xl font-black text-red-600">הכנת עוגות/עוגיות</span>
                 </div>
 
                 <div class="w-12 h-12 rounded-2xl bg-red-600 text-white flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform shadow-sm">
@@ -72,82 +72,82 @@
     <div id="shirts-view" class="hidden max-w-md mx-auto w-full space-y-5 pt-2">
         
         <!-- כפתור חזרה -->
-        <button onclick="showHomeView()" class="flex items-center gap-1.5 text-sm font-bold text-red-600 hover:text-red-700 bg-[#fffdfa] border border-red-200 px-4 py-2 rounded-2xl shadow-sm active:scale-95 transition-all">
-            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        <button onclick="showHomeView()" class="flex items-center gap-1.5 text-base font-bold text-red-600 hover:text-red-700 bg-[#fffdfa] border border-red-200 px-4 py-2.5 rounded-2xl shadow-sm active:scale-95 transition-all">
+            <i data-lucide="arrow-right" class="w-5 h-5"></i>
             <span>חזרה לעמוד הראשי</span>
         </button>
 
         <!-- כותרת הטופס והסבר -->
         <div class="bg-[#fffdfa] border-2 border-red-600 rounded-3xl p-5 space-y-2 text-right shadow-sm">
-            <h2 class="text-2xl font-black text-red-600">הזמנת חולצות טורניר לתמיר מס' 3</h2>
-            <div class="text-xs text-gray-700 space-y-1 font-medium leading-relaxed">
+            <h2 class="text-2xl sm:text-3xl font-black text-red-600 leading-tight">הזמנת חולצות טורניר לתמיר מס' 3</h2>
+            <div class="text-sm text-gray-800 space-y-1 font-bold leading-relaxed">
                 <p>אנא רשמו שם מלא וסמנו את המידה הרצויה.</p>
-                <p class="font-bold text-red-600">הזמנה נפרדת לכל איש/אישה/ילד/ילדה.</p>
-                <p class="font-bold">עלות חולצה: 30 ש״ח</p>
-                <p class="text-[11px] text-gray-500">* חלק מהתשלום מסייע בהפקת האירוע.</p>
+                <p class="text-red-600 font-extrabold text-base">הזמנה נפרדת לכל איש/אישה/ילד/ילדה.</p>
+                <p class="text-base font-black text-gray-900">עלות חולצה: 30 ש״ח</p>
+                <p class="text-xs text-gray-600 font-medium">* חלק מהתשלום מסייע בהפקת האירוע.</p>
             </div>
         </div>
 
         <form onsubmit="handleShirtsSubmit(event)" class="space-y-4 text-right">
             
             <!-- שם מלא -->
-            <div class="bg-[#fffdfa] border border-red-200 rounded-2xl p-4 shadow-sm space-y-1.5">
-                <label class="block text-sm font-bold text-gray-800">
+            <div class="bg-[#fffdfa] border border-red-200 rounded-2xl p-4 sm:p-5 shadow-sm space-y-2">
+                <label class="block text-base sm:text-lg font-black text-gray-800">
                     שם מלא <span class="text-red-600">*</span>
                 </label>
                 <input type="text" id="shirt-full-name" required placeholder="הכנס שם מלא"
-                    class="w-full px-4 py-3 rounded-xl bg-[#f7f3eb] border border-gray-300 text-sm focus:outline-none focus:border-red-600 transition-colors">
+                    class="w-full px-4 py-3.5 rounded-xl bg-[#f7f3eb] border border-gray-300 text-base font-semibold focus:outline-none focus:border-red-600 transition-colors">
             </div>
 
             <!-- מידה -->
-            <div class="bg-[#fffdfa] border border-red-200 rounded-2xl p-4 shadow-sm space-y-2">
-                <label class="block text-sm font-bold text-gray-800">
+            <div class="bg-[#fffdfa] border border-red-200 rounded-2xl p-4 sm:p-5 shadow-sm space-y-2.5">
+                <label class="block text-base sm:text-lg font-black text-gray-800">
                     מידה <span class="text-red-600">*</span>
                 </label>
-                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-1" id="sizes-container">
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 pt-1" id="sizes-container">
                     <!-- ייטען אוטומטית ע"י JS -->
                 </div>
             </div>
 
             <!-- סוג בד -->
-            <div class="bg-[#fffdfa] border border-red-200 rounded-2xl p-4 shadow-sm space-y-2">
-                <label class="block text-sm font-bold text-gray-800">
+            <div class="bg-[#fffdfa] border border-red-200 rounded-2xl p-4 sm:p-5 shadow-sm space-y-2.5">
+                <label class="block text-base sm:text-lg font-black text-gray-800">
                     סוג בד <span class="text-red-600">*</span>
                 </label>
-                <div class="flex gap-4 pt-1">
-                    <label class="flex items-center gap-2 text-sm font-semibold cursor-pointer">
-                        <input type="radio" name="fabric" value="דרייפיט" required class="accent-red-600 w-4 h-4">
+                <div class="flex gap-6 pt-1">
+                    <label class="flex items-center gap-2.5 text-base font-bold cursor-pointer">
+                        <input type="radio" name="fabric" value="דרייפיט" required class="accent-red-600 w-5 h-5">
                         <span>דרייפיט</span>
                     </label>
-                    <label class="flex items-center gap-2 text-sm font-semibold cursor-pointer">
-                        <input type="radio" name="fabric" value="טריקו" required class="accent-red-600 w-4 h-4">
+                    <label class="flex items-center gap-2.5 text-base font-bold cursor-pointer">
+                        <input type="radio" name="fabric" value="טריקו" required class="accent-red-600 w-5 h-5">
                         <span>טריקו</span>
                     </label>
                 </div>
             </div>
 
             <!-- תשלום פייבוקס -->
-            <div class="bg-[#fffdfa] border-2 border-red-600/80 rounded-2xl p-4 shadow-sm space-y-3">
-                <div class="text-xs font-bold text-gray-800 leading-relaxed">
-                    <p class="text-sm font-black text-red-600 mb-1">לתשלום בפיפייבוקס:</p>
+            <div class="bg-[#fffdfa] border-2 border-red-600/80 rounded-2xl p-5 shadow-sm space-y-3.5">
+                <div class="text-sm font-bold text-gray-800 leading-relaxed space-y-1.5">
+                    <p class="text-base font-black text-red-600">לתשלום בפיפייבוקס:</p>
                     <a href="https://links.payboxapp.com/ECpwzbYVrWb" target="_blank" rel="noopener noreferrer"
-                        class="inline-flex items-center gap-1 text-red-600 underline font-black text-xs break-all hover:text-red-700">
-                        <i data-lucide="external-link" class="w-3.5 h-3.5 shrink-0"></i>
+                        class="inline-flex items-center gap-1.5 text-red-600 underline font-black text-base break-all hover:text-red-700">
+                        <i data-lucide="external-link" class="w-4 h-4 shrink-0"></i>
                         <span>לחץ כאן לתשלום ב-PayBox</span>
                     </a>
-                    <p class="mt-2 text-red-600 font-bold">שימו לב! יש לחזור לאחר התשלום ולסמן "שולם" - אחרת ההזמנה לא תישלח.</p>
+                    <p class="mt-2 text-red-600 font-extrabold text-sm leading-snug">שימו לב! יש לחזור לאחר התשלום ולסמן "שולם" - אחרת ההזמנה לא תישלח.</p>
                 </div>
 
-                <div class="pt-2 border-t border-gray-200">
-                    <label class="flex items-center gap-2 text-sm font-bold text-gray-800 cursor-pointer">
-                        <input type="checkbox" id="payment-confirmed" required class="accent-red-600 w-4 h-4 rounded">
+                <div class="pt-3 border-t border-gray-200">
+                    <label class="flex items-center gap-2.5 text-base font-black text-gray-900 cursor-pointer">
+                        <input type="checkbox" id="payment-confirmed" required class="accent-red-600 w-5 h-5 rounded">
                         <span>ביצעתי תשלום ב-PayBox (שולם)</span>
                     </label>
                 </div>
             </div>
 
             <!-- כפתור שליחה -->
-            <button type="submit" class="w-full bg-red-600 hover:bg-red-700 active:scale-[0.98] text-white font-black py-4 rounded-2xl shadow-md transition-all text-base flex items-center justify-center gap-2">
+            <button type="submit" class="w-full bg-red-600 hover:bg-red-700 active:scale-[0.98] text-white font-black py-4.5 rounded-2xl shadow-md transition-all text-lg flex items-center justify-center gap-2">
                 <i data-lucide="send" class="w-5 h-5"></i>
                 <span>שלח הזמנה</span>
             </button>
@@ -160,8 +160,8 @@
     <div id="cakes-view" class="hidden max-w-md mx-auto w-full space-y-5 pt-2">
         
         <!-- כפתור חזרה -->
-        <button onclick="showHomeView()" class="flex items-center gap-1.5 text-sm font-bold text-red-600 hover:text-red-700 bg-[#fffdfa] border border-red-200 px-4 py-2 rounded-2xl shadow-sm active:scale-95 transition-all">
-            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        <button onclick="showHomeView()" class="flex items-center gap-1.5 text-base font-bold text-red-600 hover:text-red-700 bg-[#fffdfa] border border-red-200 px-4 py-2.5 rounded-2xl shadow-sm active:scale-95 transition-all">
+            <i data-lucide="arrow-right" class="w-5 h-5"></i>
             <span>חזרה לעמוד הראשי</span>
         </button>
 
@@ -170,8 +170,8 @@
             <div class="w-12 h-12 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mx-auto mb-1">
                 <i data-lucide="cake" class="w-6 h-6"></i>
             </div>
-            <h2 class="text-2xl font-black text-red-600">הכנת עוגות / עוגיות</h2>
-            <div class="bg-red-50 border border-red-200 rounded-2xl p-3 text-red-700 text-sm font-extrabold leading-snug space-y-1">
+            <h2 class="text-2xl sm:text-3xl font-black text-red-600">הכנת עוגות / עוגיות</h2>
+            <div class="bg-red-50 border border-red-200 rounded-2xl p-3.5 text-red-700 text-base font-extrabold leading-snug space-y-1">
                 <p>בבקשה להביא את העוגה חתוכה ומוכנה להגשה.</p>
                 <p>תודה מראש!</p>
             </div>
@@ -179,14 +179,14 @@
 
         <!-- טופס הרשמה מהיר -->
         <form onsubmit="handleCakeSubmit(event)" class="bg-[#fffdfa] border border-red-200 rounded-3xl p-5 space-y-3 text-right shadow-sm">
-            <label class="block text-sm font-bold text-gray-800">
+            <label class="block text-base font-black text-gray-800">
                 הצטרפות לרשימת המכינים <span class="text-red-600">*</span>
             </label>
             <div class="flex gap-2">
                 <input type="text" id="cake-baker-name" required placeholder="הכנס שם מלא"
-                    class="w-full px-4 py-3 rounded-xl bg-[#f7f3eb] border border-gray-300 text-sm focus:outline-none focus:border-red-600 transition-colors">
-                <button type="submit" class="bg-red-600 hover:bg-red-700 active:scale-95 text-white font-black px-5 py-3 rounded-xl shadow-sm transition-all shrink-0 flex items-center gap-1 text-sm">
-                    <i data-lucide="plus" class="w-4 h-4"></i>
+                    class="w-full px-4 py-3.5 rounded-xl bg-[#f7f3eb] border border-gray-300 text-base font-semibold focus:outline-none focus:border-red-600 transition-colors">
+                <button type="submit" class="bg-red-600 hover:bg-red-700 active:scale-95 text-white font-black px-5 py-3.5 rounded-xl shadow-sm transition-all shrink-0 flex items-center gap-1.5 text-base">
+                    <i data-lucide="plus" class="w-5 h-5"></i>
                     <span>אני אביא</span>
                 </button>
             </div>
@@ -194,9 +194,9 @@
 
         <!-- רשימת הנרשמים -->
         <div class="bg-[#fffdfa] border border-red-200 rounded-3xl p-5 space-y-3 text-right shadow-sm">
-            <div class="flex items-center justify-between border-b border-gray-200 pb-2">
-                <span class="text-sm font-black text-gray-800">רשימת מביאי העוגות והעוגיות:</span>
-                <span id="cakes-count-badge" class="bg-red-100 text-red-600 text-xs font-black px-2.5 py-1 rounded-full">0 מכינים</span>
+            <div class="flex items-center justify-between border-b border-gray-200 pb-2.5">
+                <span class="text-base font-black text-gray-800">רשימת מביאי העוגות והעוגיות:</span>
+                <span id="cakes-count-badge" class="bg-red-100 text-red-600 text-sm font-black px-3 py-1 rounded-full">0 מכינים</span>
             </div>
 
             <div id="cakes-list" class="space-y-2 pt-1 max-h-60 overflow-y-auto">
@@ -207,7 +207,7 @@
     </div>
 
     <!-- פוטר -->
-    <footer class="text-center text-xs text-gray-500 font-medium py-4">
+    <footer class="text-center text-sm text-gray-500 font-bold py-4">
         שירים ושערים 3 • ניר אליהו
     </footer>
 
@@ -225,8 +225,8 @@
         function renderSizes() {
             const container = document.getElementById('sizes-container');
             container.innerHTML = sizes.map(size => `
-                <label class="flex items-center justify-center gap-2 p-2.5 rounded-xl border border-gray-200 bg-[#f7f3eb] hover:border-red-600 cursor-pointer text-xs font-bold transition-all">
-                    <input type="radio" name="size" value="${size}" required class="accent-red-600 w-4 h-4">
+                <label class="flex items-center justify-center gap-2 p-3 rounded-xl border border-gray-200 bg-[#f7f3eb] hover:border-red-600 cursor-pointer text-sm font-extrabold transition-all">
+                    <input type="radio" name="size" value="${size}" required class="accent-red-600 w-4.5 h-4.5">
                     <span>${size}</span>
                 </label>
             `).join('');
@@ -285,17 +285,17 @@
             badge.textContent = `${cakeBakers.length} מכינים`;
 
             if (cakeBakers.length === 0) {
-                listContainer.innerHTML = `<div class="text-center py-4 text-xs font-semibold text-gray-400">טרם נרשמו מכינים. היו הראשונים להירשם!</div>`;
+                listContainer.innerHTML = `<div class="text-center py-4 text-sm font-semibold text-gray-400">טרם נרשמו מכינים. היו הראשונים להירשם!</div>`;
                 return;
             }
 
             listContainer.innerHTML = cakeBakers.map((baker, idx) => `
-                <div class="flex items-center justify-between bg-[#f7f3eb] p-3 rounded-2xl border border-gray-200 text-sm font-bold text-gray-800">
-                    <div class="flex items-center gap-2">
+                <div class="flex items-center justify-between bg-[#f7f3eb] p-3.5 rounded-2xl border border-gray-200 text-base font-bold text-gray-800">
+                    <div class="flex items-center gap-2.5">
                         <span class="w-6 h-6 rounded-full bg-red-600 text-white text-xs flex items-center justify-center shrink-0 font-black">${idx + 1}</span>
                         <span>${baker}</span>
                     </div>
-                    <i data-lucide="check-circle" class="w-4 h-4 text-red-600"></i>
+                    <i data-lucide="check-circle" class="w-5 h-5 text-red-600"></i>
                 </div>
             `).join('');
 
