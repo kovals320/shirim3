@@ -20,16 +20,11 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between p-4 sm:p-6 select-none">
 
-    <div class="max-w-md mx-auto w-full space-y-6 pt-2">
+    <div class="max-w-md mx-auto w-full space-y-6 pt-4">
         
         <!-- כרטיס ראשי במראה הכרזה -->
         <div class="bg-[#fffdfa] border-2 border-red-600 rounded-3xl p-6 text-center space-y-3 shadow-sm relative overflow-hidden">
-            <!-- קישוט פינתי -->
-            <div class="text-xs font-bold text-red-600 tracking-widest uppercase mb-1">
-                טורניר כדורגל קהילתי
-            </div>
-
-            <h1 class="text-3xl sm:text-4xl font-black text-red-600 tracking-tight leading-none">
+            <h1 class="text-3xl sm:text-4xl font-black text-red-600 tracking-tight leading-none pt-1">
                 שירים ושערים 3
             </h1>
 
@@ -37,7 +32,7 @@
                 אירוע כדורגל לזכר תמיר ברק ז"ל
             </p>
 
-            <div class="pt-2 border-t border-red-200 flex items-center justify-center gap-2 text-sm font-extrabold text-red-600">
+            <div class="pt-3 border-t border-red-200 flex items-center justify-center gap-2 text-sm font-extrabold text-red-600">
                 <i data-lucide="calendar" class="w-4 h-4"></i>
                 <span>יום חמישי | 5/11/26</span>
             </div>
@@ -48,13 +43,8 @@
             
             <!-- כפתור 1: הזמנת חולצות -->
             <button onclick="openShirtsForm()" class="group bg-[#fffdfa] hover:bg-red-50/50 border-2 border-red-600 rounded-3xl p-6 text-right transition-all duration-200 shadow-sm hover:shadow-md active:scale-[0.98] flex items-center justify-between">
-                <div class="space-y-1">
-                    <div class="flex items-center gap-2">
-                        <span class="text-lg font-black text-red-600">הזמנת חולצות</span>
-                    </div>
-                    <p class="text-xs text-gray-600 font-medium">
-                        בחירת מידות, כמויות והרשמה להזמנת חולצת האירוע
-                    </p>
+                <div>
+                    <span class="text-xl font-black text-red-600">הזמנת חולצות</span>
                 </div>
 
                 <div class="w-12 h-12 rounded-2xl bg-red-600 text-white flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform shadow-sm">
@@ -62,15 +52,10 @@
                 </div>
             </button>
 
-            <!-- כפתור 2: הרשמה להכנת עוגות -->
+            <!-- כפתור 2: הכנת עוגות/עוגיות -->
             <button onclick="openCakesForm()" class="group bg-[#fffdfa] hover:bg-red-50/50 border-2 border-red-600 rounded-3xl p-6 text-right transition-all duration-200 shadow-sm hover:shadow-md active:scale-[0.98] flex items-center justify-between">
-                <div class="space-y-1">
-                    <div class="flex items-center gap-2">
-                        <span class="text-lg font-black text-red-600">הרשמה להכנת עוגות</span>
-                    </div>
-                    <p class="text-xs text-gray-600 font-medium">
-                        התנדבות להכנת עוגה או מאפה לפינת הקפה והעוגה
-                    </p>
+                <div>
+                    <span class="text-xl font-black text-red-600">הכנת עוגות/עוגיות</span>
                 </div>
 
                 <div class="w-12 h-12 rounded-2xl bg-red-600 text-white flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform shadow-sm">
@@ -82,7 +67,7 @@
 
     </div>
 
-    <!-- פוטר קטן -->
+    <!-- פוטר -->
     <footer class="text-center text-xs text-gray-500 font-medium py-4">
         שירים ושערים 3 • ניר אליהו
     </footer>
@@ -97,7 +82,7 @@
         }
 
         function openCakesForm() {
-            alert('טופס הרשמה להכנת עוגות יחובר בהמשך');
+            alert('טופס הרשמה להכנת עוגות/עוגיות יחובר בהמשך');
         }
     </script>
 </body>
