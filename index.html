@@ -7,7 +7,8 @@
 
     <!-- Tailwind CSS & Lucide Icons -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@0.469.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <style>
@@ -154,7 +155,7 @@
             </div>
 
             <!-- כפתור שליחה -->
-            <button type="submit" class="w-full bg-red-600 hover:bg-red-700 active:scale-[0.98] text-white font-black py-4.5 rounded-2xl shadow-md transition-all text-lg flex items-center justify-center gap-2">
+            <button type="submit" class="w-full bg-red-600 hover:bg-red-700 active:scale-[0.98] text-white font-black py-4 rounded-2xl shadow-md transition-all text-lg flex items-center justify-center gap-2">
                 <i data-lucide="send" class="w-5 h-5"></i>
                 <span>שלח הזמנה</span>
             </button>
@@ -228,19 +229,39 @@
         const MAX_CAKES = 20;
         const sizes = ['XXXL', 'XXL', 'XL', 'L', 'M', 'S', '18', '16', '14', '12', '10', '8', '6', '4'];
         
+        // ====== Supabase config (fill in from Supabase -> Project Settings -> API) ======
+        // The anon key is public by design; Row Level Security (schema.sql) protects the data.
+        const SUPABASE_URL = 'https://pjujibzoscawmstarerz.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_5mK3Md5VCpXjHTSgVv68GQ_8kmPbg83';
+        const dbReady = !SUPABASE_URL.startsWith('YOUR_');
+        const db = dbReady ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
         let cakeBakers = [];
 
-        document.addEventListener('DOMContentLoaded', () => {
+        function escapeHtml(str) {
+            return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
             lucide.createIcons();
             renderSizes();
             renderCakeBakers();
+            await loadCakeBakers();
         });
+
+        async function loadCakeBakers() {
+            if (!dbReady) return;
+            const { data, error } = await db.from('shirim3_cake_bakers').select('name').order('id');
+            if (error) { console.error(error); return; }
+            cakeBakers = data.map(r => r.name);
+            renderCakeBakers();
+        }
 
         function renderSizes() {
             const container = document.getElementById('sizes-container');
             container.innerHTML = sizes.map(size => `
                 <label class="flex items-center justify-center gap-2 p-3 rounded-xl border border-gray-200 bg-[#f7f3eb] hover:border-red-600 cursor-pointer text-sm font-extrabold transition-all">
-                    <input type="radio" name="size" value="${size}" required class="accent-red-600 w-4.5 h-4.5">
+                    <input type="radio" name="size" value="${size}" required class="accent-red-600 w-5 h-5">
                     <span>${size}</span>
                 </label>
             `).join('');
@@ -267,35 +288,69 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function handleShirtsSubmit(e) {
+        async function handleShirtsSubmit(e) {
             e.preventDefault();
-            
+            const form = e.target;
+            const submitBtn = form.querySelector('button[type="submit"]');
+
             const fullName = document.getElementById('shirt-full-name').value.trim();
             const size = document.querySelector('input[name="size"]:checked')?.value;
             const fabric = document.querySelector('input[name="fabric"]:checked')?.value;
+            const paidClaimed = document.getElementById('payment-confirmed').checked;
+
+            if (!dbReady) {
+                alert('מסד הנתונים עדיין לא מחובר - ההזמנה לא נשמרה. פנו למארגן.');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            const { error } = await db.from('shirim3_shirt_orders').insert({
+                full_name: fullName,
+                size: size,
+                fabric: fabric,
+                paid_claimed: paidClaimed
+            });
+            submitBtn.disabled = false;
+
+            if (error) {
+                console.error(error);
+                alert('אירעה שגיאה בשמירת ההזמנה, נסו שוב.');
+                return;
+            }
 
             alert(`ההזמנה התקבלה בהצלחה!\n\nשם: ${fullName}\nמידה: ${size}\nסוג בד: ${fabric}`);
-            
-            e.target.reset();
+
+            form.reset();
             showHomeView();
         }
 
-        function handleCakeSubmit(e) {
+        async function handleCakeSubmit(e) {
             e.preventDefault();
 
-            if (cakeBakers.length >= MAX_CAKES) {
-                alert('מצטערים, הרשימה כבר מלאה (20/20)!');
+            if (!dbReady) {
+                alert('מסד הנתונים עדיין לא מחובר - ההרשמה לא נשמרה. פנו למארגן.');
                 return;
             }
 
             const input = document.getElementById('cake-baker-name');
             const name = input.value.trim();
-
             if (!name) return;
 
-            cakeBakers.push(name);
+            const { error } = await db.from('shirim3_cake_bakers').insert({ name });
+
+            if (error) {
+                await loadCakeBakers();
+                if (error.message && error.message.includes('full')) {
+                    alert('מצטערים, הרשימה כבר מלאה (20/20)!');
+                } else {
+                    console.error(error);
+                    alert('אירעה שגיאה בהרשמה, נסו שוב.');
+                }
+                return;
+            }
+
             input.value = '';
-            renderCakeBakers();
+            await loadCakeBakers();
         }
 
         function renderCakeBakers() {
@@ -324,7 +379,7 @@
                 <div class="flex items-center justify-between bg-[#f7f3eb] p-3.5 rounded-2xl border border-gray-200 text-base font-bold text-gray-800">
                     <div class="flex items-center gap-2.5">
                         <span class="w-6 h-6 rounded-full bg-red-600 text-white text-xs flex items-center justify-center shrink-0 font-black">${idx + 1}</span>
-                        <span>${baker}</span>
+                        <span>${escapeHtml(baker)}</span>
                     </div>
                     <i data-lucide="check-circle" class="w-5 h-5 text-red-600"></i>
                 </div>
