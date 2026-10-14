@@ -148,11 +148,44 @@
             loadOrders();
         }
 
+        let bakersList = [];
+
         async function loadBakers() {
-            const { data } = await db.from('shirim3_cake_bakers').select('name').order('id');
-            document.getElementById('bakers').innerHTML = (data && data.length)
-                ? data.map((b, i) => `<div>${i + 1}. ${esc(b.name)}</div>`).join('') + `<div class="pt-2 text-gray-500">${data.length} / 20</div>`
+            const { data, error } = await db.from('shirim3_cake_bakers').select('id, name').order('id');
+            if (error) { alert('שגיאה בטעינת מכיני העוגות: ' + error.message); return; }
+            bakersList = data || [];
+            document.getElementById('bakers').innerHTML = bakersList.length
+                ? bakersList.map((b, i) => `
+                    <div class="flex items-center justify-between gap-2 py-2 border-b border-gray-100 last:border-0">
+                        <span>${i + 1}. ${esc(b.name)}</span>
+                        <span class="flex gap-3 shrink-0 text-sm font-bold">
+                            <button onclick="renameBaker(${b.id})" class="text-gray-700 hover:text-red-600">ערוך</button>
+                            <button onclick="removeBaker(${b.id})" class="text-red-600 hover:text-red-700">מחק</button>
+                        </span>
+                    </div>`).join('') + `<div class="pt-2 text-gray-500">${bakersList.length} / 20</div>`
                 : 'אין נרשמים עדיין';
+        }
+
+        async function renameBaker(id) {
+            const baker = bakersList.find(b => b.id === id);
+            if (!baker) return;
+            const input = prompt('שם חדש:', baker.name);
+            if (input === null) return;
+            const name = input.trim();
+            if (name.length < 2 || name === baker.name) return;
+            const { data, error } = await db.from('shirim3_cake_bakers').update({ name }).eq('id', id).select();
+            if (error) { alert('שגיאה בעדכון: ' + error.message); return; }
+            if (!data || data.length === 0) alert('העדכון לא נשמר. ייתכן שחסרה הרשאת עדכון במסד הנתונים (ראו schema.sql).');
+            loadBakers();
+        }
+
+        async function removeBaker(id) {
+            const baker = bakersList.find(b => b.id === id);
+            if (!baker || !confirm(`למחוק את "${baker.name}" מרשימת המכינים?`)) return;
+            const { data, error } = await db.from('shirim3_cake_bakers').delete().eq('id', id).select();
+            if (error) { alert('שגיאה במחיקה: ' + error.message); return; }
+            if (!data || data.length === 0) alert('המחיקה לא בוצעה. בדקו את הרשאות המסד.');
+            loadBakers();
         }
 
         function exportCsv() {

@@ -96,6 +96,11 @@ drop policy if exists "anyone can add a baker" on public.shirim3_cake_bakers;
 create policy "anyone can add a baker"
   on public.shirim3_cake_bakers for insert to anon, authenticated with check (true);
 
+drop policy if exists "admin can update bakers" on public.shirim3_cake_bakers;
+create policy "admin can update bakers"
+  on public.shirim3_cake_bakers for update to authenticated
+  using (public.shirim3_is_admin()) with check (public.shirim3_is_admin());
+
 drop policy if exists "admin can delete bakers" on public.shirim3_cake_bakers;
 create policy "admin can delete bakers"
   on public.shirim3_cake_bakers for delete to authenticated using (public.shirim3_is_admin());
