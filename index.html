@@ -77,10 +77,17 @@
             <span>חזרה לעמוד הראשי</span>
         </button>
 
-        <!-- כותרת הטופס והסבר -->
-        <div class="bg-[#fffdfa] border-2 border-red-600 rounded-3xl p-5 space-y-2 text-right shadow-sm">
+        <!-- כותרת הטופס, סקירת החולצה והסבר -->
+        <div class="bg-[#fffdfa] border-2 border-red-600 rounded-3xl p-5 space-y-4 text-right shadow-sm">
             <h2 class="text-2xl sm:text-3xl font-black text-red-600 leading-tight">הזמנת חולצות טורניר לתמיר מס' 3</h2>
-            <div class="text-sm text-gray-800 space-y-1 font-bold leading-relaxed">
+            
+            <!-- תמונת דוגמת החולצה -->
+            <div class="bg-[#f7f3eb] p-2 rounded-2xl border border-red-200 text-center">
+                <img src="shirt.jpg" alt="חולצת האירוע - שירים ושערים 3" class="w-full h-auto rounded-xl object-contain mx-auto shadow-xs" onerror="this.src='https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&auto=format&fit=crop&q=80'">
+                <p class="text-xs font-bold text-gray-600 mt-2">סקיצת חולצת האירוע הרשמית</p>
+            </div>
+
+            <div class="text-sm text-gray-800 space-y-1 font-bold leading-relaxed pt-1">
                 <p>אנא רשמו שם מלא וסמנו את המידה הרצויה.</p>
                 <p class="text-red-600 font-extrabold text-base">הזמנה נפרדת לכל איש/אישה/ילד/ילדה.</p>
                 <p class="text-base font-black text-gray-900">עלות חולצה: 30 ש״ח</p>
@@ -177,18 +184,24 @@
             </div>
         </div>
 
-        <!-- טופס הרשמה מהיר -->
-        <form onsubmit="handleCakeSubmit(event)" class="bg-[#fffdfa] border border-red-200 rounded-3xl p-5 space-y-3 text-right shadow-sm">
+        <!-- טופס הרשמה מהיר (נחסם ב-20 מכינים) -->
+        <form id="cake-form" onsubmit="handleCakeSubmit(event)" class="bg-[#fffdfa] border border-red-200 rounded-3xl p-5 space-y-3 text-right shadow-sm">
             <label class="block text-base font-black text-gray-800">
                 הצטרפות לרשימת המכינים <span class="text-red-600">*</span>
             </label>
-            <div class="flex gap-2">
+            
+            <div id="cake-form-inputs" class="flex gap-2">
                 <input type="text" id="cake-baker-name" required placeholder="הכנס שם מלא"
                     class="w-full px-4 py-3.5 rounded-xl bg-[#f7f3eb] border border-gray-300 text-base font-semibold focus:outline-none focus:border-red-600 transition-colors">
-                <button type="submit" class="bg-red-600 hover:bg-red-700 active:scale-95 text-white font-black px-5 py-3.5 rounded-xl shadow-sm transition-all shrink-0 flex items-center gap-1.5 text-base">
+                <button type="submit" id="cake-submit-btn" class="bg-red-600 hover:bg-red-700 active:scale-95 text-white font-black px-5 py-3.5 rounded-xl shadow-sm transition-all shrink-0 flex items-center gap-1.5 text-base">
                     <i data-lucide="plus" class="w-5 h-5"></i>
                     <span>אני אביא</span>
                 </button>
+            </div>
+
+            <!-- הודעת הרשימה מלאה -->
+            <div id="cake-full-msg" class="hidden bg-gray-100 border border-gray-300 text-gray-700 rounded-xl p-3 text-center text-sm font-bold">
+                הרשימה מלאה (20/20) - תודה רבה לכל הנרשמים! ❤️
             </div>
         </form>
 
@@ -196,7 +209,7 @@
         <div class="bg-[#fffdfa] border border-red-200 rounded-3xl p-5 space-y-3 text-right shadow-sm">
             <div class="flex items-center justify-between border-b border-gray-200 pb-2.5">
                 <span class="text-base font-black text-gray-800">רשימת מביאי העוגות והעוגיות:</span>
-                <span id="cakes-count-badge" class="bg-red-100 text-red-600 text-sm font-black px-3 py-1 rounded-full">0 מכינים</span>
+                <span id="cakes-count-badge" class="bg-red-100 text-red-600 text-sm font-black px-3 py-1 rounded-full">0 / 20</span>
             </div>
 
             <div id="cakes-list" class="space-y-2 pt-1 max-h-60 overflow-y-auto">
@@ -212,6 +225,7 @@
     </footer>
 
     <script>
+        const MAX_CAKES = 20;
         const sizes = ['XXXL', 'XXL', 'XL', 'L', 'M', 'S', '18', '16', '14', '12', '10', '8', '6', '4'];
         
         let cakeBakers = [];
@@ -268,6 +282,12 @@
 
         function handleCakeSubmit(e) {
             e.preventDefault();
+
+            if (cakeBakers.length >= MAX_CAKES) {
+                alert('מצטערים, הרשימה כבר מלאה (20/20)!');
+                return;
+            }
+
             const input = document.getElementById('cake-baker-name');
             const name = input.value.trim();
 
@@ -281,8 +301,19 @@
         function renderCakeBakers() {
             const listContainer = document.getElementById('cakes-list');
             const badge = document.getElementById('cakes-count-badge');
+            const inputsContainer = document.getElementById('cake-form-inputs');
+            const fullMsg = document.getElementById('cake-full-msg');
 
-            badge.textContent = `${cakeBakers.length} מכינים`;
+            badge.textContent = `${cakeBakers.length} / ${MAX_CAKES} מכינים`;
+
+            // בדיקת הגבלת 20 נרשמים
+            if (cakeBakers.length >= MAX_CAKES) {
+                inputsContainer.classList.add('hidden');
+                fullMsg.classList.remove('hidden');
+            } else {
+                inputsContainer.classList.remove('hidden');
+                fullMsg.classList.add('hidden');
+            }
 
             if (cakeBakers.length === 0) {
                 listContainer.innerHTML = `<div class="text-center py-4 text-sm font-semibold text-gray-400">טרם נרשמו מכינים. היו הראשונים להירשם!</div>`;
