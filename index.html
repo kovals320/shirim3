@@ -1,1 +1,104 @@
-<h1>Shirim3 App is Live</h1>
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>שירים ושערים 3</title>
+
+    <!-- Tailwind CSS & Lucide Icons -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Assistant', sans-serif;
+            background-color: #f7f3eb;
+            color: #1f2937;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between p-4 sm:p-6 select-none">
+
+    <div class="max-w-md mx-auto w-full space-y-6 pt-2">
+        
+        <!-- כרטיס ראשי במראה הכרזה -->
+        <div class="bg-[#fffdfa] border-2 border-red-600 rounded-3xl p-6 text-center space-y-3 shadow-sm relative overflow-hidden">
+            <!-- קישוט פינתי -->
+            <div class="text-xs font-bold text-red-600 tracking-widest uppercase mb-1">
+                טורניר כדורגל קהילתי
+            </div>
+
+            <h1 class="text-3xl sm:text-4xl font-black text-red-600 tracking-tight leading-none">
+                שירים ושערים 3
+            </h1>
+
+            <p class="text-base font-bold text-red-700/90">
+                אירוע כדורגל לזכר תמיר ברק ז"ל
+            </p>
+
+            <div class="pt-2 border-t border-red-200 flex items-center justify-center gap-2 text-sm font-extrabold text-red-600">
+                <i data-lucide="calendar" class="w-4 h-4"></i>
+                <span>יום חמישי | 5/11/26</span>
+            </div>
+        </div>
+
+        <!-- 2 כפתורים / כרטיסים גדולים לביצוע הפעולות -->
+        <div class="grid grid-cols-1 gap-4 pt-2">
+            
+            <!-- כפתור 1: הזמנת חולצות -->
+            <button onclick="openShirtsForm()" class="group bg-[#fffdfa] hover:bg-red-50/50 border-2 border-red-600 rounded-3xl p-6 text-right transition-all duration-200 shadow-sm hover:shadow-md active:scale-[0.98] flex items-center justify-between">
+                <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                        <span class="text-lg font-black text-red-600">הזמנת חולצות</span>
+                    </div>
+                    <p class="text-xs text-gray-600 font-medium">
+                        בחירת מידות, כמויות והרשמה להזמנת חולצת האירוע
+                    </p>
+                </div>
+
+                <div class="w-12 h-12 rounded-2xl bg-red-600 text-white flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform shadow-sm">
+                    <i data-lucide="shirt" class="w-6 h-6"></i>
+                </div>
+            </button>
+
+            <!-- כפתור 2: הרשמה להכנת עוגות -->
+            <button onclick="openCakesForm()" class="group bg-[#fffdfa] hover:bg-red-50/50 border-2 border-red-600 rounded-3xl p-6 text-right transition-all duration-200 shadow-sm hover:shadow-md active:scale-[0.98] flex items-center justify-between">
+                <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                        <span class="text-lg font-black text-red-600">הרשמה להכנת עוגות</span>
+                    </div>
+                    <p class="text-xs text-gray-600 font-medium">
+                        התנדבות להכנת עוגה או מאפה לפינת הקפה והעוגה
+                    </p>
+                </div>
+
+                <div class="w-12 h-12 rounded-2xl bg-red-600 text-white flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform shadow-sm">
+                    <i data-lucide="cake" class="w-6 h-6"></i>
+                </div>
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- פוטר קטן -->
+    <footer class="text-center text-xs text-gray-500 font-medium py-4">
+        שירים ושערים 3 • ניר אליהו
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+
+        function openShirtsForm() {
+            alert('טופס הזמנת חולצות יחובר בהמשך');
+        }
+
+        function openCakesForm() {
+            alert('טופס הרשמה להכנת עוגות יחובר בהמשך');
+        }
+    </script>
+</body>
+</html>
